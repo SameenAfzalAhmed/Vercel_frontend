@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '@/App.css';
+import './App.css';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { MusicProvider } from './context/MusicContext';
 import Sidebar from './components/Sidebar';
