@@ -62,7 +62,7 @@ const SongRow = ({ song, index, queue = [], onAddToPlaylist, showRemove, onRemov
         </div>
       </div>
       
-      <div className="text-sm text-muted-foreground truncate">{song.album}</div>
+      <div className="text-sm text-muted-foreground truncate:sm text-sm">{song.album}</div>
       
       <div className="text-sm text-muted-foreground font-mono text-center">
         {formatDuration(song.duration)}

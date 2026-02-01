@@ -3,14 +3,16 @@ import { useMusic } from '../context/MusicContext';
 import SongCard from '../components/SongCard';
 import { Heart, Music, Plus, Trash2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { Helmet } from "react-helmet-async";
+
 
 const Library = () => {
-  const { 
-    playlists, 
-    favorites, 
+  const {
+    playlists,
+    favorites,
     songs,
-    loadPlaylists, 
-    loadFavorites, 
+    loadPlaylists,
+    loadFavorites,
     loadSongs,
     createPlaylist,
     deletePlaylist
@@ -62,7 +64,17 @@ const Library = () => {
 
   return (
     <div className="space-y-8" data-testid="library-page">
-      <h1 className="text-4xl font-bold" data-testid="library-title">Your Library</h1>
+      
+      {/* SEO */}
+      <Helmet>
+        <title>Your Music Library – Saved Songs & Playlists | S1 Pulse</title>
+        <meta
+          name="description"
+          content="Access your saved songs and playlists in your personal music library on S1 Pulse."
+        />
+      </Helmet>
+
+      <h1 className="mt-6 sm:mt-8 md:mt-0 text-4xl font-bold" data-testid="library-title">Your Library</h1>
 
       {/* Favorites Section */}
       <section>
@@ -71,7 +83,7 @@ const Library = () => {
           <h2 className="text-2xl font-bold" data-testid="favorites-title">Liked Songs</h2>
           <span className="text-sm text-muted-foreground">({favoriteSongs.length})</span>
         </div>
-        
+
         {favoriteSongs.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {favoriteSongs.map(song => (
@@ -97,10 +109,10 @@ const Library = () => {
           </div>
           <button
             onClick={() => setShowCreateModal(true)}
-            className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-full hover:scale-105 transition-transform font-semibold"
+            className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-full hover:scale-105 transition-transform font-semibold md:px-4 md:py-2 md:text-sm   px-3 py-1 text-xs    "
             data-testid="create-new-playlist-button"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-4 h-4 hidden sm:inline" />
             Create Playlist
           </button>
         </div>
@@ -108,15 +120,15 @@ const Library = () => {
         {playlists.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
             {playlists.map(playlist => (
-              <div 
+              <div
                 key={playlist.id}
                 className="group relative rounded-md overflow-hidden bg-card border border-border/50 hover:border-primary/50 transition-all album-card-hover cursor-pointer"
                 onClick={() => navigate(`/playlist/${playlist.id}`)}
                 data-testid={`library-playlist-${playlist.id}`}
               >
                 <div className="aspect-square relative overflow-hidden">
-                  <img 
-                    src={playlist.cover_url} 
+                  <img
+                    src={playlist.cover_url}
                     alt={playlist.name}
                     className="w-full h-full object-cover"
                   />
@@ -149,12 +161,12 @@ const Library = () => {
 
       {/* Create Playlist Modal */}
       {showCreateModal && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4"
           onClick={() => setShowCreateModal(false)}
           data-testid="create-playlist-modal"
         >
-          <div 
+          <div
             className="bg-card border border-border rounded-lg p-6 max-w-md w-full"
             onClick={(e) => e.stopPropagation()}
           >

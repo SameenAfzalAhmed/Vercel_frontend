@@ -3,17 +3,21 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useMusic } from '../context/MusicContext';
 import SongRow from '../components/SongRow';
 import { Play, ArrowLeft, Share2 } from 'lucide-react';
+import { Helmet } from "react-helmet-async";
 
 const PlaylistDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { 
-    playlists, 
+
+
+  const {
+    playlists,
     loadPlaylists,
     getPlaylistSongs,
     playSong,
     removeSongFromPlaylist
   } = useMusic();
+
   const [playlist, setPlaylist] = useState(null);
   const [playlistSongs, setPlaylistSongs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -92,6 +96,16 @@ const PlaylistDetail = () => {
 
   return (
     <div className="space-y-6" data-testid="playlist-detail-page">
+        {/* Back button */}
+      <Helmet>
+        <title>{playlist?.name} Playlist – Stream Music | S1 Pulse</title>
+        <meta
+          name="description"
+          content={`Listen to ${playlist?.song_ids.length} songs in the ${playlist?.name} playlist on S1 Pulse.`}
+        />
+      </Helmet>
+
+
       {/* Back button */}
       <button
         onClick={() => navigate('/library')}
@@ -104,14 +118,14 @@ const PlaylistDetail = () => {
 
       {/* Playlist Header */}
       <div className="flex gap-6 items-end">
-        <img 
-          src={playlist.cover_url} 
+        <img
+          src={playlist.cover_url}
           alt={playlist.name}
           className="w-48 h-48 rounded-lg shadow-lg object-cover"
         />
         <div className="flex-1">
           <p className="text-sm text-muted-foreground uppercase tracking-wider mb-2">Playlist</p>
-          <h1 className="text-5xl font-bold mb-4" data-testid="playlist-name">{playlist.name}</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold mb-2 md:mb-4 break-words" data-testid="playlist-name">{playlist.name}</h1>
           {playlist.description && (
             <p className="text-muted-foreground mb-4">{playlist.description}</p>
           )}
@@ -153,9 +167,9 @@ const PlaylistDetail = () => {
             <div></div>
           </div>
           {playlistSongs.map((song, index) => (
-            <SongRow 
-              key={song.id} 
-              song={song} 
+            <SongRow
+              key={song.id}
+              song={song}
               index={index}
               queue={playlistSongs}
               showRemove

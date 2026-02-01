@@ -29,7 +29,7 @@ const Search = () => {
   return (
     <div className="space-y-6" data-testid="search-page">
       <div>
-        <h1 className="text-4xl font-bold mb-6" data-testid="search-page-title">Search</h1>
+        <h1 className=" mt-6 sm:mt-8 md:mt-0 text-4xl font-bold mb-6" data-testid="search-page-title">Search</h1>
         
         {/* Search Input */}
         <div className="relative max-w-2xl">

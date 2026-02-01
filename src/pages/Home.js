@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useMusic } from '../context/MusicContext';
 import SongCard from '../components/SongCard';
 import { Sparkles } from 'lucide-react';
+import { Helmet } from "react-helmet-async";
 
 const Home = () => {
   const { songs, loadSongs, playlists, loadPlaylists, initData } = useMusic();
@@ -16,7 +17,15 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="space-y-8" data-testid="home-page">
+    
+    <div className="mt-6 sm:mt-8 md:mt-0 space-y-8" data-testid="home-page">
+      <Helmet>
+        <title>Free Online Music Player & Playlists | S1 Pulse</title>
+        <meta
+          name="description"
+          content="Stream music online for free, discover new tracks, and create playlists on S1 Pulse music player."
+        />
+      </Helmet>
       {/* Hero Section */}
       <div 
         className="relative rounded-lg overflow-hidden p-12"
@@ -30,8 +39,10 @@ const Home = () => {
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">Featured</span>
           </div>
           <h1 className="text-5xl font-bold mb-4 text-glow" data-testid="home-hero-title">
-            Discover Your Sound
+            Discover Your Sound 
+            
           </h1>
+          
           <p className="text-lg text-muted-foreground max-w-2xl">
             Immerse yourself in a world of music. Stream your favorite tracks and discover new ones.
           </p>

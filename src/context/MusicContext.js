@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useRef, useEffect } from 'r
 import axios from 'axios';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+const API = `${BACKEND_URL}`;
 
 const MusicContext = createContext();
 
@@ -25,7 +25,7 @@ export const MusicProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
   const [queue, setQueue] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   const audioRef = useRef(new Audio());
 
   // Load songs
@@ -69,7 +69,7 @@ export const MusicProvider = ({ children }) => {
       audioRef.current.src = song.audio_url;
       audioRef.current.play();
       setIsPlaying(true);
-      
+
       if (songQueue.length > 0) {
         setQueue(songQueue);
         const index = songQueue.findIndex(s => s.id === song.id);
@@ -163,6 +163,17 @@ export const MusicProvider = ({ children }) => {
     }
   };
 
+  // Get songs for playlist
+  const getPlaylistSongs = async (playlistId) => {
+    try {
+      const response = await axios.get(`${API}/playlists/${playlistId}/songs`);
+      return response.data;
+    } catch (error) {
+      console.error('Error loading playlist songs:', error);
+      return [];
+    }
+  };
+
   // Add song to playlist
   const addSongToPlaylist = async (playlistId, songId) => {
     try {
@@ -175,6 +186,8 @@ export const MusicProvider = ({ children }) => {
       throw error;
     }
   };
+
+
 
   // Remove song from playlist
   const removeSongFromPlaylist = async (playlistId, songId) => {
@@ -189,32 +202,24 @@ export const MusicProvider = ({ children }) => {
   // Delete playlist
   const deletePlaylist = async (playlistId) => {
     try {
-      await axios.delete(`${API}/playlists/${playlistId}`);
-      await loadPlaylists();
-    } catch (error) {
-      console.error('Error deleting playlist:', error);
+      // Save the response in 'res'
+      const res = await axios.delete(`${API}/playlists/${playlistId}`);
+      await loadPlaylists(); // Refresh playlists after deletion
+      return res.data;       // Return the message if needed
+    } catch (err) {
+      console.error('Error deleting playlist:', err);
+      return null;           // Return null on error
     }
   };
 
-  // Get songs for playlist
-  const getPlaylistSongs = async (playlistId) => {
-    try {
-      const playlist = await axios.get(`${API}/playlists/${playlistId}`);
-      const songPromises = playlist.data.song_ids.map(id => 
-        axios.get(`${API}/songs/${id}`)
-      );
-      const songResponses = await Promise.all(songPromises);
-      return songResponses.map(r => r.data);
-    } catch (error) {
-      console.error('Error loading playlist songs:', error);
-      return [];
-    }
-  };
+
+
+
 
   // Initialize sample data
   const initData = async () => {
     try {
-      await axios.post(`${API}/init-data`);
+      await axios.get(`${API}/init-data`);
       await loadSongs();
       await loadPlaylists();
     } catch (error) {
