@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useMusic } from '../context/MusicContext';
 import SongRow from '../components/SongRow';
 import { Search as SearchIcon, X } from 'lucide-react';
+import { Helmet } from "react-helmet-async";
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -28,9 +29,18 @@ const Search = () => {
 
   return (
     <div className="space-y-6" data-testid="search-page">
+      {/* SEO*/}
+      <Helmet>
+        <title>Search Songs, Artists & Albums | S1 Pulse</title>
+        <meta
+          name="description"
+          content="Search for songs, artists, and albums instantly on S1 Pulse music platform."
+        />
+      </Helmet>
+
       <div>
         <h1 className=" mt-6 sm:mt-8 md:mt-0 text-4xl font-bold mb-6" data-testid="search-page-title">Search</h1>
-        
+
         {/* Search Input */}
         <div className="relative max-w-2xl">
           <SearchIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
@@ -66,9 +76,9 @@ const Search = () => {
           </h2>
           <div className="space-y-1">
             {searchResults.map((song, index) => (
-              <SongRow 
-                key={song.id} 
-                song={song} 
+              <SongRow
+                key={song.id}
+                song={song}
                 index={index}
                 queue={searchResults}
               />

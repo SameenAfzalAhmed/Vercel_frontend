@@ -19,6 +19,7 @@ const Home = () => {
   return (
     
     <div className="mt-6 sm:mt-8 md:mt-0 space-y-8" data-testid="home-page">
+      {/*SEO */}
       <Helmet>
         <title>Free Online Music Player & Playlists | S1 Pulse</title>
         <meta
